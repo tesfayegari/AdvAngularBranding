@@ -1,0 +1,71 @@
+#blog .box .matter {
+  min-height: 192px;
+  max-height: 191px;
+}
+
+  #blog .box .matter p {
+      max-height: 97px;
+      overflow-y: hidden;
+  }
+
+  #blog .box .matter h1 {
+      margin-bottom: 13px;
+  }
+
+.product-box input[type=button], .product-box input[type=reset], .product-box input[type=submit], button {
+  min-width: inherit;
+}
+
+select.selectpicker {
+  display: block !important;
+}
+
+
+.product-box .matter p {
+  max-height: 34px;
+  overflow: hidden;
+}
+
+
+.product-box .matter {
+  max-height: 187px;
+  min-height: 187px;
+}
+
+
+/*credit to: Denis Molodtsov */
+.ms-webpart-chrome-title *,
+.ms-webpart-chrome-title *:before,
+.ms-webpart-chrome-title *:after,
+#s4-ribbonrow *,
+#s4-ribbonrow *:before,
+#s4-ribbonrow *:after,
+.ms-webpart-controlBox,
+.ms-dialog *,
+.ms-dialog *:before,
+.ms-dialog *:after,
+#idStorefrontLayoutRoot *,
+#idStorefrontLayoutRoot *:before,
+#idStorefrontLayoutRoot *:after,
+.ms-dialog #s4-workspace *,
+.ms-dialog #s4-workspace *:before,
+.ms-dialog #s4-workspace *:after,
+.ms-dlgTitle *,
+.ms-dlgTitle *:before,
+.ms-dlgTitle *:after,
+.ms-srch-result-groups *,
+.ms-srch-result-groups *:before,
+.ms-srch-result-groups *:after,
+#Paging *,
+#Paging *:before,
+#Paging *:after,
+#Hero-WPQ2 *,
+#Hero-WPQ2 *:before,
+#Hero-WPQ2 *:after,
+#suiteBarButtons *,
+#suiteBarButtons *:before,
+#suiteBarButtons *:after {
+  -webkit-box-sizing: initial !important;
+  -moz-box-sizing: initial !important;
+  box-sizing: content-box !important;
+}
