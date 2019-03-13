@@ -77,21 +77,21 @@
 		<SharePoint:CssRegistration ID="CssRegistration1"
 			name="<% $SPUrl:~sitecollection/Style Library/design/bootstrap/css/bootstrap.css %>" runat="server" />
 		<!-- stylesheet -->
-		<SharePoint:CssRegistration ID="CssRegistration1"
+		<SharePoint:CssRegistration ID="CssRegistration2"
 			name="<% $SPUrl:~sitecollection/Style Library/design/css/style.css %>" runat="server" />
 		<!-- font-awesome -->
-		<SharePoint:CssRegistration ID="CssRegistration1"
+		<SharePoint:CssRegistration ID="CssRegistration3"
 			name="<% $SPUrl:~sitecollection/Style Library/design/font-awesome/css/font-awesome.min.css %>" runat="server" />
 		<!-- crousel css -->
-		<SharePoint:CssRegistration ID="CssRegistration1"
+		<SharePoint:CssRegistration ID="CssRegistration4"
 			name="<% $SPUrl:~sitecollection/Style Library/design/js/owl-carousel/owl.carousel.css %>" runat="server" />
 		<!--bootstrap select-->
 		<SharePoint:CssRegistration ID="CssRegistration1"
 			name="<% $SPUrl:~sitecollection/Style Library/design/js/dist/css/bootstrap-select.css %>" runat="server" />
 
-		<SharePoint:CssRegistration ID="CssRegistration1"
+		<SharePoint:CssRegistration ID="CssRegistration5"
 			name="<% $SPUrl:~sitecollection/Style Library/design/css/style.css %>" runat="server" />
-		<SharePoint:CssRegistration ID="CssRegistration2"
+		<SharePoint:CssRegistration ID="CssRegistration6"
 			name="<% $SPUrl:~sitecollection/Style Library/design/css/spoverrite.css %>" runat="server" />
 		<!-- Custom CSS References End -->
 
