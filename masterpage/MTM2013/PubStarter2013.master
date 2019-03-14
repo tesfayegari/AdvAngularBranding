@@ -7,7 +7,7 @@
 <%@ Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Register TagPrefix="wssuc" TagName="Welcome" src="~/_controltemplates/15/Welcome.ascx" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<SharePoint:SPHtmlTag dir="<%$Resources:wss,multipages_direction_dir_value%>" ID="SPHtmlTag" runat="server">
+<SharePoint:SPHtmlTag ng-app="mtmDemo" dir="<%$Resources:wss,multipages_direction_dir_value%>" ID="SPHtmlTag" runat="server">
 
 	<head runat="server">
 		<meta name="GENERATOR" content="Microsoft SharePoint" />
@@ -86,12 +86,12 @@
 		<SharePoint:CssRegistration ID="CssRegistration4"
 			name="<% $SPUrl:~sitecollection/Style Library/design/js/owl-carousel/owl.carousel.css %>" runat="server" />
 		<!--bootstrap select-->
-		<SharePoint:CssRegistration ID="CssRegistration1"
+		<SharePoint:CssRegistration ID="CssRegistration5"
 			name="<% $SPUrl:~sitecollection/Style Library/design/js/dist/css/bootstrap-select.css %>" runat="server" />
 
-		<SharePoint:CssRegistration ID="CssRegistration5"
-			name="<% $SPUrl:~sitecollection/Style Library/design/css/style.css %>" runat="server" />
 		<SharePoint:CssRegistration ID="CssRegistration6"
+			name="<% $SPUrl:~sitecollection/Style Library/design/css/style.css %>" runat="server" />
+		<SharePoint:CssRegistration ID="CssRegistration7"
 			name="<% $SPUrl:~sitecollection/Style Library/design/css/spoverrite.css %>" runat="server" />
 		<!-- Custom CSS References End -->
 
@@ -113,7 +113,7 @@
 			<script
 				type="text/javascript"> var submitHook = function () { return false; }; theForm._spOldSubmit = theForm.submit; theForm.submit = function () { if (!submitHook()) { this._spOldSubmit(); } }; </script>
 			<SharePoint:AjaxDelta id="DeltaSPWebPartManager" runat="server">
-				<WebPartPages:SPWebPartManager runat="Server" />
+				<WebPartPages:SPWebPartManager runat="Server"/>
 			</SharePoint:AjaxDelta>
 			<asp:ScriptManager id="ScriptManager" runat="server" EnablePageMethods="false" EnablePartialRendering="true"
 				EnableScriptGlobalization="false" EnableScriptLocalization="true" />
@@ -377,18 +377,27 @@
     CUSTOM UI STARTS HERE                 
 ***************************************************** -->
 
-						<div>
-							<h2>
+						<div id="custom-main-area">
+							<!----Site title and Link h2>
 								<SharePoint:SPLinkButton runat="server" NavigateUrl="~site/" id="SPLinkButton1">
 									<SharePoint:ProjectProperty Property="Title" runat="server" />
 								</SharePoint:SPLinkButton>
-							</h2>
+							</h2-->
+							<!--- Top Navigation area---->
+							<top-navigation></top-navigation>
+							
+							
+							<!--- Global Nav area Navigation area---->
+							<global-navigation></global-navigation>
 
 							<div>
 								<SharePoint:AjaxDelta id="DeltaPlaceHolderMain" BlockElement="true" IsMainContent="true" runat="server">
 									<asp:ContentPlaceHolder id="PlaceHolderMain" runat="server" />
 								</SharePoint:AjaxDelta>
 							</div>
+							
+							<!--- Footer goes here---->
+							<mtm-footer></mtm-footer>
 						</div>
 
 						<!-- ****************************************************
