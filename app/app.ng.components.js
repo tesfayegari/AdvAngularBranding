@@ -35,7 +35,55 @@
 
   });
 
-  
+  mtmDemo.component('newForm', {
+    controllerAs: 'vm',
+    template: "<div ng-include='vm.tempUrl'></div>",
+    bindings: {
+      title: '@'
+    },
+    controller: function (svc) {
+      var vm = this;
+      vm.employee = {};
+      vm.$onInit = function () {
+        svc.getAllItems("Departments").then(function (response) {
+          vm.departments = response;
+          console.log(response);
+        });
+      };
+      vm.tempUrl = svc.getTemplateUrl('newform.html');
+
+      vm.createNewEmployee = function (event) {
+        event.preventDefault();
+        var d = new Date('3/3/1996');
+        var data = {
+          //To Get __metadata->'type' value for the list, go to
+          //https://<site>/_api/web/lists/getbytitle('<List Name>')?$select=ListItemEntityTypeFullName
+          //from the xml, get the value inside <d:ListItemEntityTypeFullName> element
+          __metadata: { 'type': 'SP.Data.EmployeesListItem' },
+          Title: vm.employee.first_name,
+          last_name : vm.employee.last_name,
+          email : vm.employee.email,
+          phone : vm.employee.phone,
+          description : vm.employee.description,
+          DateOfBirth : vm.employee.dob,
+          RegisteredDate : vm.employee.registeredDate,
+          DepartmentId	: vm.employee.department,
+          Created : d.toISOString(),
+          Modified : d.toISOString()
+        };
+        svc.createListItem("Employees", data).then(function(response){
+          console.log("Item Creted");
+          console.log(response);
+          console.log(event);
+          vm.employee = {};
+        });
+      }
+
+    }
+
+  });
+
+
   mtmDemo.component('mtmFooter', {
     controllerAs: 'vm',
     template: "<div ng-include='vm.tempUrl'></div>",
@@ -52,101 +100,5 @@
     }
 
   });
-
-
-  // mtmDemo.component('carosel', {
-  //   controllerAs: 'vm',
-  //   template: "<div ng-include='vm.tempUrl'></div>",
-  //   bindings: {
-  //     title: '@'
-  //   },
-  //   controller: function (svc) {
-  //     var vm = this;
-      
-  //     vm.$onInit = function () {
-  //       // TODO: Initialization goes here
-  //     };
-  //     vm.tempUrl = svc.getTemplateUrl('carosel.html');
-
-  //   }
-
-  // });
-
-
-  // mtmDemo.component('accordion', {
-  //   controllerAs: 'vm',
-  //   template: "<div ng-include='vm.tempUrl'></div>",
-  //   bindings: {
-  //     title: '@'
-  //   },
-  //   controller: function (svc) {
-  //     var vm = this;
-  //     vm.$onInit = function () {
-  //       var filter = '?$filter=Disable eq false';
-  //       svc.getItems("AccordionList", filter).then(function (results) {
-  //         vm.items = results;          
-  //         console.log(vm.items);
-  //       });
-  //     };
-  //     vm.getClass = function(index){
-  //      return index==0?'in':'';
-  //     }      
-
-  //     vm.tempUrl = svc.getTemplateUrl('accordion.html');
-  //   }
-  // });
-
-  // mtmDemo.component('slider', {
-  //   controllerAs: 'vm',
-  //   template: "<div ng-include='vm.tempUrl'></div>",
-  //   bindings: {
-  //     title: '@',
-  //     siteurl: '@'
-  //   },
-  //   controller: function (svc) {
-  //     var vm = this;
-     
-  //     vm.$onInit = function () {
-  //       var url = '/sites/demo/';
-  //       console.log("Site is " + vm.siteurl);
-  //       if(vm.siteurl){url =vm.siteurl;}
-  //       svc.getAllItemsFromSite("Slider", url).then(function (results) {
-  //         vm.items = results;          
-  //         console.log(vm.items);
-  //       });
-  //     };
-  //     vm.getClass = function(index){
-  //      return index==0?'active':'';
-  //     }      
-
-  //     vm.tempUrl = svc.getTemplateUrl('slider.html');
-  //   }
-  // });
-
-  // mtmDemo.component('tableItems', {
-  //   controllerAs: 'vm',
-  //   template: "<div ng-include='vm.tempUrl'></div>",
-  //   bindings: {
-  //     title: '@'
-  //   },
-  //   controller: function (svc) {
-  //     var vm = this;
-  //     vm.search = '';
-  //     vm.$onInit = function () {
-        
-  //       svc.getAllItems("Board").then(function (results) {
-  //         vm.items = results;          
-  //         console.log(vm.items);
-  //       });
-  //     };
-  //     vm.getClass = function(index){
-  //      return index==0?'in':'';
-  //     }      
-
-  //     vm.tempUrl = svc.getTemplateUrl('listItems.html');
-  //   }
-  // });
-
-
 
 })();

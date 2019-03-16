@@ -1,0 +1,54 @@
+<form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>First Name</label>
+      <input type="text" class="form-control" ng-model="vm.employee.first_name" placeholder="John" required>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Last Name</label>
+      <input type="text" class="form-control" ng-model="vm.employee.last_name" placeholder="Do">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Email</label>
+      <input type="email" class="form-control" ng-model="vm.employee.email" placeholder="example@email.com">
+    </div>
+    <div class="form-group col-md-6">
+      <label>Phone</label>
+      <input type="text" class="form-control" ng-model="vm.employee.phone" placeholder="xxx-xxx-xxxx">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="description">Description</label>
+      <textarea class="form-control" name="description" ng-model="vm.employee.description"
+        placeholder="Description .... "></textarea>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputCity">Date of Birth</label>
+      <input type="date" class="form-control" ng-model="vm.employee.dob" placeholder="MM/DD/YYYY">
+    </div>
+    <div class="form-group col-md-4">
+      <label>Registered Date</label>
+      <input type="date" class="form-control" ng-model="vm.employee.registeredDate" placeholder="MM/DD/YYYY">
+    </div>
+    <div class="form-group col-md-4">
+      <label >Department</label>
+      <select class="form-control" ng-model="vm.employee.department">        
+        <option ng-repeat="d in vm.departments" value="{{d.ID}}">{{d.Title}}</option>        
+      </select>
+    </div>
+
+    <div class="form-group col-md-12" style="float:right;">
+      <button type="submit" class="btn btn-default">Cancel</button>
+      <button type="submit" class="btn btn-primary" ng-click="vm.createNewEmployee($event)">Submit</button>
+    </div>
+  </div>
+
+</form>
+<div class="container">
+  <pre>{{vm.employee | json}}</pre>
+</div>

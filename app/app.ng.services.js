@@ -100,7 +100,13 @@
           //console.log(response);
           return response;
         });
-      }
+      },
+      createListItem: function (listName, data) {
+        var url = _webAbsoluteUrl + "/_api/web/lists/getbytitle('"+ listName + "')/items";
+        return _CreateListData(url, data).then(function (d) {
+            return d;
+        });
+    }
 
     };//End of Service Return
 
