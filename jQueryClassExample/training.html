@@ -1,0 +1,129 @@
+<style>
+input#signupButton:hover {
+    color: #000 !important;
+}
+</style>
+<div class="form-group">
+  <label>Email:</label>
+  <input type="email" class="form-control" id="email" placeholder="Enter email">
+</div>
+<div id="restOfForm">
+  <div class="form-group">
+    <label for="email">FullName:</label>
+    <input type="text" class="form-control" id="fullName" placeholder="Enter Full Name">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Select Training:</label>
+    <select class="form-control" id="training">
+      <Option value="select">Select ...</Option>
+      <!-- TODO Filled from Trainings List-->
+    </select>
+  </div>
+  <div class="form-group">
+    <div class="checkbox">
+      <label><input type="checkbox" id="isContractor"> Contractor?</label>
+    </div>
+  </div>
+  <div class="form-group" id="onlyContractor">
+    <label for="email">Unique ID (contractor):</label>
+    <input type="text" class="form-control" id="uniqueID" placeholder="Enter Unique ID">
+  </div>
+</div>
+<div>
+  <input id="signupButton" type="button" class="btn btn-primary" value="Sign Up">
+</div>
+
+
+<script>
+
+  $(document).ready(function () {
+    $('#restOfForm').hide();
+    $('#onlyContractor').hide();
+    // Fills the dropdown of the Training
+    getListItems('Trainings').done(function (response) {
+      var data = response.d.results;
+      var myHtml = '';
+      data.forEach(function (item) {
+        myHtml += '<Option value="' + item.ID + '">' + item.Title + '</Option>';
+      });
+      $('#training').html(myHtml);
+    });
+    // Signup button clicked
+    $('#signupButton').click(function () {
+      // $(this).hide();
+      var trainer = {};
+      var email = $('#email').val();
+      if (email == '') {
+        alert("Email is required");
+        return;
+      }
+      if ($('#signupButton').val() == "Submit") {
+        trainer.Title = $('#fullName').val();
+        trainer.Email = email;
+        trainer.TrainingId = $('#training').val();
+        training.Contractor = $('#isContractor').prop('checked');
+        training.UniqeID = $('#uniqueID').checked
+        console.log(JSON.stringify(trainer));
+      } else {
+        getSignupItem(email).done(
+          function (response) {
+            console.log(response);
+            var data = response.d.results;
+            if (data.length > 0) {
+              alert("You are already registerd");
+            } else {
+              $('#restOfForm').show();
+              $('#signupButton').val("Submit");
+            }
+          });
+      }
+
+    });
+    //End of signup button  
+    //checkbutton clicked
+    $('#isContractor').click(function () {
+      if (this.checked) {
+        $('#onlyContractor').show();
+      } else {
+        $('#onlyContractor').hide();
+      }
+    });
+    //End of checkbutton clicked
+  });
+
+
+
+  function getSignupItem(email) {
+    var siteurl = _spPageContextInfo.webAbsoluteUrl;
+    return $.ajax({
+      url: siteurl + "/_api/web/lists/getbytitle('SignupList')/items?$filter=Email eq +'" + email + "'",
+      method: "GET",
+      headers: { "Accept": "application/json; odata=verbose" }
+    });
+  }
+
+  function getListItems(listName) {
+    var siteurl = _spPageContextInfo.webAbsoluteUrl;
+    return $.ajax({
+      url: siteurl + "/_api/web/lists/getbytitle('" + listName + "')/items",
+      method: "GET",
+      headers: { "Accept": "application/json; odata=verbose" }
+    });
+  }
+
+  function addItem(listData, listName) {
+    var siteurl = _spPageContextInfo.webAbsoluteUrl;
+    return $.ajax({
+      url: siteurl + "/_api/web/lists/getbytitle('" + listName + "')/items",
+      method: "POST",
+      data: JSON.stringify(listData),
+      headers: {
+        "Accept": "application/json; odata=verbose",
+        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+      }
+    });
+
+  }
+
+
+</script>
