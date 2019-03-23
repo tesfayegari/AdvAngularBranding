@@ -1,7 +1,7 @@
 <style>
-input#signupButton:hover {
+  input#signupButton:hover {
     color: #000 !important;
-}
+  }
 </style>
 <div class="form-group">
   <label>Email:</label>
@@ -32,6 +32,17 @@ input#signupButton:hover {
 <div>
   <input id="signupButton" type="button" class="btn btn-primary" value="Sign Up">
 </div>
+<table class="table">
+  <tr>
+    <th>Full Name</th>
+    <th>Email</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  <tbody id="trainees">
+
+  </tbody>
+</table>
 
 
 <script>
@@ -48,6 +59,16 @@ input#signupButton:hover {
       });
       $('#training').html(myHtml);
     });
+
+    getListItems('SignupList').done(function (response) {
+      var data = response.d.results;
+      var myHtml = '';
+      data.forEach(function (item) {
+        myHtml += '<tr><td>' + item.Title + '</td>' + '<td>' + item.Email + '</td>'
+          + '<td><span class="	glyphicon glyphicon-pencil"></span></td><td><a href="#" onclick="deleteItem(' + item.ID + ')"><span class="glyphicon glyphicon-trash"></span></a></td></tr>';
+      });
+      $('#trainees').html(myHtml);
+    });
     // Signup button clicked
     $('#signupButton').click(function () {
       // $(this).hide();
@@ -61,9 +82,18 @@ input#signupButton:hover {
         trainer.Title = $('#fullName').val();
         trainer.Email = email;
         trainer.TrainingId = $('#training').val();
-        training.Contractor = $('#isContractor').prop('checked');
-        training.UniqeID = $('#uniqueID').checked
+        trainer.Contractor = $('#isContractor').prop('checked');
+        trainer.UniqeID = $('#uniqueID').checked
         console.log(JSON.stringify(trainer));
+        var data = {
+          __metadata: { 'type': 'SP.Data.SignupListListItem' },
+          Title: trainer.Title,
+          Email: trainer.Email,
+          Contractor: trainer.Contractor,
+          TrainingId: trainer.TrainingId,
+          UniqeID: trainer.UniqeID
+        };
+        addItem(data, 'SignupList');
       } else {
         getSignupItem(email).done(
           function (response) {
@@ -92,7 +122,6 @@ input#signupButton:hover {
   });
 
 
-
   function getSignupItem(email) {
     var siteurl = _spPageContextInfo.webAbsoluteUrl;
     return $.ajax({
@@ -111,19 +140,52 @@ input#signupButton:hover {
     });
   }
 
+// Add item function 
   function addItem(listData, listName) {
     var siteurl = _spPageContextInfo.webAbsoluteUrl;
-    return $.ajax({
+    $.ajax({
       url: siteurl + "/_api/web/lists/getbytitle('" + listName + "')/items",
       method: "POST",
       data: JSON.stringify(listData),
       headers: {
         "Accept": "application/json; odata=verbose",
+        "content-type": "application/json;odata=verbose",
         "X-RequestDigest": $("#__REQUESTDIGEST").val()
+      },
+      success: function (data) {
+        location.reload();
+      },
+      error: function (error) {
+        alert("Error: " + JSON.stringify(error));
       }
     });
 
   }
 
+  // Delete function 
+  function deleteItem(value) {
+
+    $.ajax({
+
+      url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('SignupList')/items(" + value + ")",
+      method: "POST",
+      headers: {
+        "accept": "application/json;odata=verbose",
+        "content-type": "application/json;odata=verbose",
+        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+        "IF-MATCH": "*",
+        "X-HTTP-Method": "DELETE"
+      },
+      success: function (data) {
+        location.reload();
+      },
+      error: function (error) {
+        console.log(JSON.stringify(error));
+
+      }
+
+    });
+
+  }
 
 </script>
