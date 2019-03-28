@@ -1,0 +1,179 @@
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script type="text/javascript" src="//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js"></script>
+<link type="text/css" rel="stylesheet" href="//cdn.datatables.net/1.10.3/css/jquery.dataTables.min.css" />
+
+
+<!-- MAKE SURE THAT YOU SPECIFY THE NAMES OF THE COLUMNS TO DISPLAY IN THE THEAD ROW -->
+<div id="myOverlay"></div>
+<div id="loadingGIF">
+    <h2>Loading all Company's SDS sites...</h2>
+</div>
+<h1 id='title'></h1>
+<h2 id='title2'></h2>
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="ZipViewTable">
+    <thead>
+        <th>Title</th>
+        <th>Column 2</th>
+        <th>Column 3</th>
+    </thead>
+    <tfoot>
+        <th>Title</th>
+        <th>Column 2</th>
+        <th>Column 3</th>
+    </tfoot>
+</table>
+
+
+<style type="text/css">
+    #ZipViewTable {
+        display: none;
+    }   
+
+    #myOverlay {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    #myOverlay {
+        background: black;
+        opacity: .7;
+        z-index: 2;
+        display: none;
+    }
+
+    #loadingGIF {
+        position: absolute;
+        top: 40%;
+        left: 45%;
+        z-index: 3;
+        display: none;
+    }
+
+    .container {
+        padding: 0 50px;
+    }
+
+    #searchButton {
+        padding: 5px;
+        display: block;
+        margin-left: 200px;
+        margin-top: 10px;
+    }
+
+    label {
+        width: 180px;
+        clear: left;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    input,
+    label {
+        float: left;
+    }
+
+    .innerContainer {
+        margin: 5px;
+    }
+
+    #ZipViewTable span {
+        display: none;
+    }
+
+    .innerContainerSide {
+        float: left;
+        padding-left: 10px;
+    }
+
+    .LibrarySelection {
+        padding: 10px, 0px;
+        margin: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#myOverlay').show();
+        $('#loadingGIF').show();
+        GetZips();
+    });
+
+
+    function GetZips() {
+
+
+        if (true) {
+            //
+            // MODIFY THE REST QUERY TO RETRIEVE THE FIELDS YOU NEED FROM THE YOUR SPECIFIC LIST
+            // YOU CAN TEST YOUR REST QUERY IN THE BROWSER URL TO KNOW THE CORRECT FIELD NAMES TO USE
+            // AND TO MAKE SURE YOUR FILTERS WORK
+
+
+            var customUrl = "/_api/Web/Lists/GetByTitle('ListName')/items?$select=Title,Column2,Column3&$top=5000";
+            var call = $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + customUrl,
+                type: "GET",
+                dataType: "json",
+                headers: {
+                    Accept: "application/json;odata=verbose"
+                }
+
+            });
+            call.done(function (data, textStatus, jqXHR) {
+                $("#ZipViewTable").dataTable({
+                    "bDestroy": true,
+                    "bProcessing": true,
+                    "aaData": data.d.results,
+                    //MAKE SURE YOU SPECIFY THE FIELDS YOU WANT TO DISPLAY IN THE LIST VIEW
+                    //THE VALUE OF EACH "mData" PROPERTY IS THE FIELD NAME AS IT IS RETURNED
+                    //FROM THE REST QUERY.  
+                    "aoColumns": [
+                        //    { "mData": "FileRef",
+                        //        "mRender": function ( data, type, full ) {
+                        //            var filename = data.replace(/^.*[\\\/]/, '');
+                        //            return '<a href="'+data +'" target="_blank">' + filename + '</a>';
+                        //        } },
+                        //    { "mData": "ProductTradeName" },                    
+                        //   { "mData": "MSDSDate",
+                        //        "render": function (data) {
+                        //        var d = new Date(data);                                   
+                        //        return '<span>' + Date.parse(d) +'</span>' + d.toLocaleDateString();}                                     
+                        //   },                    
+                        {
+                            "mData": "Title"
+                            // ,
+                            // "mRender": function (data, type, full) {
+                            //     //var filename = data.replace(/^.*[\\\/]/, '');
+                            //     return '<a href="' + full.Url + '" target="_blank">' + data + '</a>';
+                            // }
+                        },
+                        { "mData": "Column2" },
+                        { "mData": "Column3" }//,
+                        //   { "mData": "MSDSCompany" }
+                    ],
+                    "iDisplayLength": 20,
+                    "dom": '<"top"iflp<"clear">>rt<"bottom"iflp<"clear">>',
+                    "bLengthChange": false,
+                    "bProcessing": true,
+                });
+
+                $("#ZipViewTable").show();
+                $("#title").html("Title 1 goes here");
+                $("#title2").html("Subtitle 1 Goes here");
+                $('#myOverlay').hide();
+                $('#loadingGIF').hide();
+            });
+            call.fail(function (jqXHR, textStatus, errorThrown) {
+                alert("Error retrieving Data: " + jqXHR.responseText);
+                $('#myOverlay').hide();
+                $('#loadingGIF').hide();
+            });
+
+        }
+
+    }
+
+
+</script>
