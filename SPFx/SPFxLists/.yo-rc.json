@@ -1,0 +1,12 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": true,
+    "environment": "spo",
+    "version": "1.8.0",
+    "libraryName": "sp-fx-lists",
+    "libraryId": "8a7fb82d-3f02-4c71-b8c7-94df7c1b01ff",
+    "packageManager": "npm",
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
